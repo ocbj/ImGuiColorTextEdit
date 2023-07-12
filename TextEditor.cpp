@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <regex>
 #include <cmath>
 #include <set>
 
@@ -59,7 +60,7 @@ void TextEditor::SetLanguageDefinition(const LanguageDefinition& aLanguageDef)
 	mRegexList.clear();
 
 	for (const auto& r : mLanguageDefinition->mTokenRegexStrings)
-		mRegexList.push_back(std::make_pair(boost::regex(r.first, boost::regex_constants::optimize), r.second));
+		mRegexList.push_back(std::make_pair(std::regex(r.first, std::regex_constants::optimize), r.second));
 
 	Colorize();
 }
@@ -2600,7 +2601,7 @@ void TextEditor::ColorizeRange(int aFromLine, int aToLine)
 		return;
 
 	std::string buffer;
-	boost::cmatch results;
+	std::cmatch results;
 	std::string id;
 
 	int endLine = std::max(0, std::min((int)mLines.size(), aToLine));
@@ -2645,7 +2646,7 @@ void TextEditor::ColorizeRange(int aFromLine, int aToLine)
 
 				for (const auto& p : mRegexList)
 				{
-					if (boost::regex_search(first, last, results, p.first, boost::regex_constants::match_continuous))
+					if (std::regex_search(first, last, results, p.first, std::regex_constants::match_continuous))
 					{
 						hasTokenizeResult = true;
 

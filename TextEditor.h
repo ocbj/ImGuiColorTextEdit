@@ -9,7 +9,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <map>
-#include <boost/regex.hpp>
+#include <regex>
 #include "imgui.h"
 
 class IMGUI_API TextEditor
@@ -340,7 +340,8 @@ private:
 		return (c & 0xC0) == 0x80;
 	}
 
-	typedef std::vector<std::pair<boost::regex, PaletteIndex>> RegexList;
+	typedef std::vector<std::pair<std::regex, PaletteIndex>> RegexList;
+
 
 	struct Cursor
 	{
